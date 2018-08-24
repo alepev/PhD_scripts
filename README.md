@@ -3,7 +3,7 @@ A collection of Python&R scripts from my PhD research (mostly plant phylogenetic
 
 ## Intro
 
-This is a partial collection of scripts I made during my PhD,
+This is a partial collection of R and Python (2.XX) scripts I made during my PhD,
 usable with publicly available datasets and software for (plant) genomics & phylogenetics.
 Some of the original datasets consisted of huge genomic files and annotations,
 so instead of including them directly in the repository, 
