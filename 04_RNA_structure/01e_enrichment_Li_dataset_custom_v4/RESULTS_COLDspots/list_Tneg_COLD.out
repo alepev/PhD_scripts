@@ -1,0 +1,108 @@
+
+#PROGRESS REPORT
+
+#gene list (AGI loci + TE IDs) loaded
+#background loaded
+#representative models loaded
+#cold/hotspots loaded
+#GFF3 loaded
+#OVERLAP done (general)
+#OVERLAP done (protein-coding genes)
+#FOLD-ENRICHMENT + FISHER TEST for p-value done
+
+################################################
+
+#INPUT FILES
+
+#INPUT LIST:	list_Tneg.txt
+#BACKGROUND:	COLD_NOfilter.bkg
+
+#TAIR MODELS:	TAIR10_representative_gene_models.txt
+#GFF3 ANNOT.:	TAIR10_GFF3_genes.gff
+#RNA ANNOT.:	Li_coldspots.txt
+
+################################################
+
+#FILTERING OPTIONS (cold/hotspots)
+
+#min SCORE:	-100000.0
+#max SCORE:	100000.0
+#MIN length:	0
+#MAX length:	100000000
+
+################################################
+
+#GENERAL STATISTICS
+
+#N cold/hotspots passing filtering:	33187
+#(N unique coordinates passing filtering):	33187
+
+#N genes with mapped model:	76
+#(TOTAL genes from list):	76
+#N mapped Transposable Elements:	0
+#(TOTAL TrEl from list):	0
+
+#N genes (list vs background)
+all_protein-coding	73 	26405
+all_5UTRgene	70 	19250
+all_3UTRgene	70 	20071
+all_pseudogene	0 	760
+all_TrElgene	0 	2427
+all_miRNA	1 	139
+all_snRNA	0 	12
+all_snoRNA	0 	41
+all_tRNA	0 	16
+all_rRNA	0 	3
+all_other_non-coding	2 	370
+all_TrEl	0 	0
+
+#OVERLAP STATISTICS (strand-specific), LIST vs BACKGROUND + FOLD ENRICHMENT + FISHER P-VALUE (HYPERGEOMETRIC TEST)
+
+#N genes with cold/hotspot overlap (spot partially contained in gene limits)
+protein-coding	56 	14174 	1.43 	7.96e-05
+pseudogene	0 	70 	- 	-
+TrElgene	0 	94 	- 	-
+miRNA	0 	7 	- 	-
+snRNA	0 	1 	- 	-
+snoRNA	0 	0 	- 	-
+tRNA	0 	2 	- 	-
+rRNA	0 	2 	- 	-
+other_non-coding	0 	146 	- 	-
+TrEl	0 	0 	- 	-
+
+#N genes with cold/hotspot overlap (spot FULLY contained in gene limits)
+protein-coding	56 	13983 	1.45 	4.79e-05
+pseudogene	0 	69 	- 	-
+TrElgene	0 	91 	- 	-
+miRNA	0 	6 	- 	-
+snRNA	0 	1 	- 	-
+snoRNA	0 	0 	- 	-
+tRNA	0 	2 	- 	-
+rRNA	0 	1 	- 	-
+other_non-coding	0 	141 	- 	-
+TrEl	0 	0 	- 	-
+
+#N protein-coding genes with cold/hotspot overlapping exon feature (spot partially contained in gene limits)
+5UTR	4 	1100 	1.00 	1.00e+00
+3UTR	12 	1989 	1.73 	6.66e-02
+CDS	47 	11241 	1.51 	2.01e-04
+exon	54 	13147 	1.49 	3.09e-05
+
+#N protein-coding genes with cold/hotspot overlapping exon feature (spot FULLY contained in gene limits)
+5UTR	4 	988 	1.11 	7.83e-01
+3UTR	11 	1852 	1.70 	9.25e-02
+CDS	47 	11040 	1.54 	1.17e-04
+exon	53 	12747 	1.50 	3.02e-05
+
+#N protein-coding genes with cold/hotspot not overlapping exon feature (spot partially contained in gene limits)
+intron	2 	1027 	0.70 	1.00e+00
+
+#N protein-coding genes with cold/hotspot not overlapping exon feature (spot FULLY contained in gene limits)
+intron	2 	1023 	0.71 	1.00e+00
+
+#N protein-coding genes with cold/hotspot FULLY CONTAINED IN EXON FEATURE LIMITS
+CDS_FULL	30 	8451 	1.28 	1.03e-01
+exon_FULL	43 	11146 	1.40 	4.30e-03
+
+***WARNING: YOU CANNOT USE THIS AS BACKGROUND FILE!***
+

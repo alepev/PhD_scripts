@@ -1,0 +1,70 @@
+#GIVEN EXPRESSION MATRIX probes-experiments,
+#MAP probes (at..) to loci (AT..) according to map file,
+#then filter loci according to keep file
+#remove '.gz' from column names (if present)
+
+e 	<- data.matrix(read.csv("fake_exp.txt",header=TRUE,row.names=1,sep="\t"))
+map 	<- read.csv("fake_map.txt",header=FALSE,stringsAsFactors=FALSE,row.names=1,sep="\t")
+keep	<- scan("fake_keep.txt", what="character")
+
+> e
+    CEL1.gz CEL2 CEL3.gz
+at1       1       1       8
+at2       0       3       1
+at3       9       2       2
+at4       2       3       2
+at5       7       6       0
+
+> map
+      V2
+at1 AT11
+at2 AT12
+at3 AT13
+at4 AT14
+at5 AT15
+at6 AT16
+
+> keep
+[1] "AT12" "AT13" "AT15"
+
+#mapping rows
+
+rownames(e) <- map[rownames(e),1]
+#short version of:
+#for (i in 1:nrow(e)){
+#	rownames(e)[i]<- map[rownames(e)[i],1]
+#	}
+
+> e
+     CEL1.gz CEL2.gz CEL3.gz
+AT11       1       1       8
+AT12       0       3       1
+AT13       9       2       2
+AT14       2       3       2
+AT15       7       6       0
+
+#filtering rows
+
+e=e[rownames(e) %in% keep,]
+
+> e
+     CEL1.gz CEL2 CEL3.gz
+AT12       0    3       1
+AT13       9    2       2
+AT15       7    6       0
+
+#renaming columns
+
+colnames(e) <- sub(pattern=".gz", replacement="", colnames(e), ignore.case=FALSE, fixed=TRUE)
+
+> e
+     CEL1 CEL2 CEL3
+AT12    0    3    1
+AT13    9    2    2
+AT15    7    6    0
+
+
+
+
+
+

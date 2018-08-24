@@ -1,0 +1,9 @@
+#
+chr1	pseudogene	1	5	geneA
+chr2	pseudogene	1	5	geneB
+chr2	pseudogene	25	30	geneC
+chr3	pseudogene	10	20	geneD
+chr4	pseudogene	1	5	geneE
+chr5	pseudogene	1	5	geneF
+chr5	pseudogene	10	20	geneG
+chr7	pseudogene	10	20	geneH

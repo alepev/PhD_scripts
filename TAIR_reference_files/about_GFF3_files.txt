@@ -1,0 +1,4 @@
+
+#NOTE on .GFF3 files:
+	gene (genomic locus) > mRNA (specific gene model, i.e. transcript variant) > exons (specific for given transcript variant) = (5'UTR+CDS+3'UTR)
+	(introns have to be inferred from mRNA coord.s - exons coord.s)

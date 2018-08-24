@@ -1,0 +1,92 @@
+
+#PROGRESS REPORT
+
+#gene list (AGI loci) loaded
+#background loaded
+#representative models loaded
+#RNA coords. loaded
+#GFF3 loaded
+#OVERLAP done (general)
+#OVERLAP done (protein-coding genes)
+#FOLD-ENRICHMENT + FISHER TEST for p-value done
+
+################################################
+
+#INPUT FILES
+
+#INPUT LIST:	list_Tnochange.txt
+#BACKGROUND:	allgenesArray_L15_S415.bkg
+
+#TAIR MODELS:	TAIR10_representative_gene_models.txt
+#GFF3 ANNOT.:	TAIR10_GFF3_genes.gff
+#RNA ANNOT.:	UCSC_RNAstr_annotation.txt
+
+################################################
+
+#FILTERING OPTIONS (RNAs)
+
+#min SCORE:	415
+#MIN length:	15
+#MAX length:	1000
+
+################################################
+
+#GENERAL STATISTICS
+
+#N RNA structures passing filtering:	2458
+#(N unique coordinates passing filtering):	2429
+
+#N genes with mapped model:	150
+#(original N genes from list):	150
+
+#N genes (list vs background)
+all_protein-coding	150 	26405 	1.14 	2.99e-09
+all_5UTRgene	149 	19250 	1.36 	1.99e-19
+all_3UTRgene	149 	20071 	1.31 	9.54e-17
+all_pseudogene	0 	760 	- 	-
+all_TrEl	0 	2427 	- 	-
+all_miRNA	0 	139 	- 	-
+all_snRNA	0 	12 	- 	-
+all_snoRNA	0 	41 	- 	-
+all_tRNA	0 	16 	- 	-
+all_rRNA	0 	3 	- 	-
+all_other_non-coding	0 	370 	- 	-
+
+#OVERLAP STATISTICS, LIST vs BACKGROUND + FOLD ENRICHMENT + FISHER P-VALUE (HYPERGEOMETRIC TEST)
+
+#N genes with RNA structure overlap (RNA partially contained in gene limits)
+protein-coding	10 	1491 	1.18 	5.92e-01
+pseudogene	0 	9 	- 	-
+TrEl	0 	1 	- 	-
+miRNA	0 	10 	- 	-
+snRNA	0 	8 	- 	-
+snoRNA	0 	4 	- 	-
+tRNA	0 	4 	- 	-
+rRNA	0 	1 	- 	-
+other_non-coding	0 	13 	- 	-
+
+#N genes with RNA structure overlap (RNA FULLY contained in gene limits)
+protein-coding	10 	1480 	1.19 	5.90e-01
+pseudogene	0 	9 	- 	-
+TrEl	0 	1 	- 	-
+miRNA	0 	9 	- 	-
+snRNA	0 	8 	- 	-
+snoRNA	0 	4 	- 	-
+tRNA	0 	4 	- 	-
+rRNA	0 	1 	- 	-
+other_non-coding	0 	12 	- 	-
+
+#N protein-coding genes with RNA structure overlapping exon feature (partial overlap)
+5UTR	0 	19 	- 	-
+3UTR	0 	12 	- 	-
+CDS	10 	1442 	1.22 	4.70e-01
+exon	10 	1466 	1.20 	4.77e-01
+
+#N protein-coding genes with RNA structure overlapping exon feature (FULL overlap)
+5UTR	0 	12 	- 	-
+3UTR	0 	8 	- 	-
+CDS	8 	1224 	1.15 	6.94e-01
+exon	8 	1250 	1.13 	6.98e-01
+
+***WARNING: YOU CANNOT USE THIS AS BACKGROUND FILE!***
+

@@ -1,0 +1,5 @@
+list_ALL_noLOADneg.txt allgenesArray_L6_S201.bkg > list_ALL_noLOADneg_L6_S201.out
+list_LOADneg.txt allgenesArray_L6_S201.bkg > list_LOADneg_L6_S201.out
+list_Tneg.txt allgenesArray_L6_S201.bkg > list_Tneg_L6_S201.out
+list_Tnochange.txt allgenesArray_L6_S201.bkg > list_Tnochange_L6_S201.out
+list_Tpos.txt allgenesArray_L6_S201.bkg > list_Tpos_L6_S201.out

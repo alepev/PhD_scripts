@@ -1,0 +1,21 @@
+weederlauncher.out filename organism analysis <additional parameters>
+	organism = AT (for A.thaliana)
+	analysis = small|medium|large|extra (6-8|6-10|6-12|6-12, approximated 8 and 10)
+	
+	S = search both strands
+	A = try to find motif in all sequences (default some)
+	M = motif expected to appear more than once per sequence (changes statistical evaluation)
+	T<n> = n of motifs to report (in any case, only significant ones are shown)
+
+NOTE: OUTPUT folder is the same as INPUT folder! output files named after input files, with different suffix
+
+ex. of job:
+./weederlauncher.out /home/alessia/MOTIFS_weeder_results/1000up_FC2x/DElist_bZIP11e63_up1000.txt AT medium S T20 
+
+the launcher command is translated in the following inependent jobs:
+./weederTFBS.out -f /home/alessia/MOTIFS_weeder_results/1000up_FC2x/DElist_bZIP11e63_up1000.txt -R 50 -O AT -W 6 -e 1 -N -S -T 20
+./weederTFBS.out -f /home/alessia/MOTIFS_weeder_results/1000up_FC2x/DElist_bZIP11e63_up1000.txt -R 50 -O AT -W 8 -e 2 -N -S -T 20 
+./weederTFBS.out -f /home/alessia/MOTIFS_weeder_results/1000up_FC2x/DElist_bZIP11e63_up1000.txt -R 50 -O AT -W 10 -e 3 -N -S -T 20 
+
+	R = motif should appear in at least 50% of the sequences (default)
+	e = allowed changes from motif consensus

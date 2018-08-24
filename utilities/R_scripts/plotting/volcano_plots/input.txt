@@ -1,0 +1,6 @@
+motif_name_list	FC	pval
+5prime	2.35	1.89578e-10
+start	1.34	0.00618797
+cds	0.5	1.45e-20
+stop	0.4	2.3e-4
+3prime 1.0	1.9e-16

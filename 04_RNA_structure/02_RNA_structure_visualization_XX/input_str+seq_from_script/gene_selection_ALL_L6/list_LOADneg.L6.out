@@ -1,0 +1,16 @@
+#gene_list: list_LOADneg.txt#RNAstr.filter: S|minL|maxL : 0|6|1000
+#OVERLAPfilter: gene|feat|cover. : 1|0|1
+#Noverlap_genes/Nmapped_genes/Nlist_genes: 3/10/10
+#NoverlapRNAcoords/RNAunique_coords/TOT_RNAs: 7/86258/86535
+#
+#LOCUS	type	chr	start	stop	strand/S	L	TOT_RNAcoords
+AT2G17870.1	protein_coding_gene	2	7763975	7765230	-	1256	1
+vf_2_97628	RNA	2	7765096	7765110	156	14	-
+AT4G15680.1	protein_coding_gene	4	8931652	8932295	+	644	3
+ef_4_106970	RNA	4	8931818	8931852	101	34	-
+vf_4_106975	RNA	4	8932035	8932050	326	15	-
+vf_4_106976	RNA	4	8932101	8932109	313	8	-
+AT5G15180.1	protein_coding_gene	5	4930519	4932363	+	1845	3
+ef_5_134676	RNA	5	4930685	4930694	104	9	-
+vf_5_134678	RNA	5	4930770	4930793	220	23	-
+vf_5_134697	RNA	5	4932132	4932147	215	15	-

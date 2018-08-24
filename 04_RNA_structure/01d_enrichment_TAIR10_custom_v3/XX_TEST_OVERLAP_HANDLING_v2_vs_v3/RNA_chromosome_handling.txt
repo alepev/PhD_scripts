@@ -1,0 +1,10 @@
+#
+chr1	10	20	A
+chr1	25	30	A2
+chr2	1	5	B
+chr2	10	20	C
+chr3	10	20	D
+chr5	10	20	E
+chr6	10	20	F
+chr7	1	5	G
+chr7	10	20	H

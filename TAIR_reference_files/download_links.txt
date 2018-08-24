@@ -1,0 +1,28 @@
+
+The following files are necessary for many of the scripts in this repository to work;
+however, given their large size, they have been excluded from the commits.
+Luckily, you can download them yourself from the public TAIR ftp pages indicated below.
+
+TAIR10 annotations:
+
+  TAIR10_3_utr_20101028.fa
+  TAIR10_5_utr_20101028.fa
+  TAIR10_cdna_20101214_updated.fa
+  TAIR10_cds_20101214_updated.fa
+  TAIR10_seq_20101214_updated.fa
+  can be obtained from:
+  https://www.arabidopsis.org/tools/bulk/sequences/index.jsp
+  https://www.arabidopsis.org/help/helppages/BLAST_help.jsp#datasets
+
+  TAIR10_GFF3_genes.gff
+  ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff
+  TAIR10_representative_gene_models.txt
+  ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gene_lists/TAIR10_representative_gene_models
+
+TAIR9 annotations:
+  TAIR9_GFF3_genes.gff
+  ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR9_genome_release/TAIR9_gff3/TAIR9_GFF3_genes.gff
+  TAIR9_GFF3_genes_transposons.gff
+  ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR9_genome_release/TAIR9_gff3/TAIR9_GFF3_genes.gff
+  TAIR9_representative_gene_models.txt
+  ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR9_genome_release/TAIR9_representative_gene_model.txt

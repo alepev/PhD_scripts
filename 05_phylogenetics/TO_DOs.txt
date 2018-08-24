@@ -1,0 +1,4 @@
+#BLAST
+- automated masking of known DNA coordinates (including predicted genes) during BLAST search
+#ALIGNMENTS
+- program to remove lines with more than X gaps (% or given number)

@@ -1,0 +1,3 @@
+#NOTE: here --thresh == 0.001 if motif length < 8, 0.0001 otherwise (short motifs score higher p-values, therefore more permissive threshold prevents hits from being discarded)
+fimo --bgfile Bing_3UTR_0order.bkg --norc --no-qvalue --thresh 0.0001 --max-seq-length 1000000000000 --max-stored-scores 1000000000000 --oc Bing_array_6UP_FC2_1e_3UTR ./input_motifs_3UTR/motif_6UP_FC2_1e_3UTR.txt allgenesArray_Bing.TAIR10_3_utr_20101028.fa
+fimo --bgfile Bing_3UTR_0order.bkg --norc --no-qvalue --thresh 0.001 --max-seq-length 1000000000000 --max-stored-scores 1000000000000 --oc Bing_array_6UP_FC3_2b_3UTR ./input_motifs_3UTR/motif_6UP_FC3_2b_3UTR.txt allgenesArray_Bing.TAIR10_3_utr_20101028.fa

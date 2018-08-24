@@ -1,0 +1,154 @@
+RUN PARALLEL MEME (from version 4.9):
+mpirun -np X meme_p [meme options]
+	X== n of cores (to check: nproc)
+	(meme_p is the parallel version for MPI, the normal meme command won't work in the right way)
+
+EXAMPLES: 
+#dna with palindrome motif:
+meme <dataset> -dna -mod oops -nmotifs 10 -evt 1 -minsites 15 -maxsites 100 -minw 4 -maxw 10 -revcomp -pal -oc <dirname> -bfile <bfile>
+#protein:
+meme <dataset> -o <dirname> -protein -mod zoops -nmotifs 20 -evt 1 -minsites 4 -maxsites 20 -minw 5 -maxw 70 
+
+#=====================================================================================================================
+
+ USAGE:
+        meme    <dataset> [optional arguments]
+
+        <dataset>               file containing sequences in FASTA format
+        [-h]                    print this message
+        [-o <output dir>]       name of directory for output files
+                                will not replace existing directory
+        [-oc <output dir>]      name of directory for output files
+                                will replace existing directory
+        [-text]                 output in text format (default is HTML)
+        [-dna]                  sequences use DNA alphabet
+        [-protein]              sequences use protein alphabet
+        [-mod oops|zoops|anr]   distribution of motifs
+        [-nmotifs <nmotifs>]    maximum number of motifs to find
+        [-evt <ev>]             stop if motif E-value greater than <evt>
+        [-nsites <sites>]       number of sites for each motif
+        [-minsites <minsites>]  minimum number of sites for each motif
+        [-maxsites <maxsites>]  maximum number of sites for each motif
+        [-wnsites <wnsites>]    weight on expected number of sites
+        [-w <w>]                motif width
+        [-minw <minw>]          minimum motif width
+        [-maxw <maxw>]          maximum motif width
+        [-nomatrim]             do not adjust motif width using multiple
+                                alignment
+        [-wg <wg>]              gap opening cost for multiple alignments
+        [-ws <ws>]              gap extension cost for multiple alignments
+        [-noendgaps]            do not count end gaps in multiple alignments
+        [-bfile <bfile>]        name of background Markov model file
+        [-revcomp]              allow sites on + or - DNA strands
+        [-pal]                  force palindromes (requires -dna)
+        [-maxiter <maxiter>]    maximum EM iterations to run
+        [-distance <distance>]  EM convergence criterion
+        [-psp <pspfile>]        name of positional priors file
+        [-prior dirichlet|dmix|mega|megap|addone]
+                                type of prior to use
+        [-b <b>]                strength of the prior
+        [-plib <plib>]          name of Dirichlet prior file
+        [-spfuzz <spfuzz>]      fuzziness of sequence to theta mapping
+        [-spmap uni|pam]        starting point seq to theta mapping type
+        [-cons <cons>]          consensus sequence to start EM from
+        [-heapsize <hs>]        size of heaps for widths where substring 
+                                search occurs
+        [-x_branch]             perform x-branching
+        [-w_branch]             perform width branching
+        [-allw]                 include all motif widths from min to max
+        [-bfactor <bf>]         branching factor for branching search
+        [-maxsize <maxsize>]    maximum dataset size in characters
+        [-nostatus]             do not print progress reports to terminal
+        [-p <np>]               use parallel version with <np> processors
+        [-time <t>]             quit before <t> CPU seconds consumed
+        [-sf <sf>]              print <sf> as name of sequence file
+        [-V]                    verbose mode
+
+
+#################################################################################
+#	About the background model 						#
+#################################################################################
+
+CUSTOM FILE -> better motif e-value based on real occurrence in background, otherwise it's just product of individual aa/nt frequencies
+	ex. for search upstream 500 bp of target genes: use whole Ath genes upstream 500bp composition
+
+	model order "rule" == background model 4 orders less than the shortest motifs you are looking for
+	(ex. if shortest motif has length 6, n=2)
+
+What is the background model and why is it important?
+
+The background model is used by MEME to estimate the probability of a candidate motif appearing in your dataset simply by chance. MEME's default background model is a 0th order Markov model, the character frequencies of which are derived from the submitted sequence data. A 0th order Markov model assumes that character frequencies at each position in the sequence are independent of the characters found in the previous positions. In many cases this is a reasonable assumption, but in other cases it may be an invalid assumption (CpG islands, for example). MEME allows you to submit a custom background Markov model. Providing your own higher-order background model can greatly improve MEME's ability to discover motifs.
+
+How do I create a custom background model?
+
+The command-line utility fasta-get-markov, included in the MEME Suite download, is used to generate custom background Markov models. The input to fasta-get-markov is a FASTA file containing "background" sequences. Ideally, these "background" sequences will be different from the sequences you are analyzing with MEME, but as similar in nature as possible. For example, if you wanted to discover motifs in certain intergenic regions, you might use other sequence data from other intergenic regions to generate the background. The larger the set of "background" sequences is, the better the results will be. The '-m' option for fasta-get-markov allows you to set the order of the background Markov model. The order of the Markov model is the number of preceding positions considered when calculating the character frequencies for the current position.
+
+Typically, you should not specify an order larger than 3 for DNA sequences, or larger than 2 for protein sequences. However, if your input sequences contain higher-order non-random effects that are getting in the way of motif finding, you can follow the following "rules of thumb":
+
+    * Use a background model at least four orders less than the shortest motifs you are looking for. So, if you want to find motifs as short as six, I wouldn't use a model higher than order two.
+
+    * For an accurate model of order N, you need to use a FASTA file as input to fasta-get-markov with at least 10 times 4**(N+1) DNA characters in it. So,
+
+        order-3 requires 2560 characters
+        order 4 requires 10240 characters
+        order 5 requires 40960 characters
+        etc.
+
+Example
+
+Suppose the FASTA file is called 'background.fasta'. Then a typical use of fasta-get-markov would be:
+fasta-get-markov -m 0 < background.fasta > background.model
+
+This would read the sequences from background.fasta, generate a 0th order Markov model, and write it to background.model
+Similarly you could generate a 1st order Markov model with:
+fasta-get-markov -m 1 < background.fasta > background.modelt
+
+The file background.model can then be used as the background file when running MEME.
+
+#################################################################################
+#	More on background model creation					#
+#################################################################################
+
+The format for n-order Markov background models is as follows.
+The file must contain one line for each combination of 1, 2, ..., n-1 letters in the alphabet. The DNA alphabet is ACGT and protein the protein alphabet is ACDEFGHIKLMNPQRSTVWY. Each line must contain the letter combination followed by the letter combination's frequency (probability). All other lines in the file are ignored, including comment lines starting with '#'.
+
+ex. 1-order Markov model <file> might contain:
+
+# tuple   frequency_non_coding
+a       0.324
+c       0.176
+g       0.176
+t       0.324
+# tuple   frequency_non_coding
+aa      0.119
+ac      0.052
+ag      0.056
+at      0.097
+ca      0.058
+cc      0.033
+cg      0.028
+ct      0.056
+ga      0.056
+gc      0.035
+gg      0.033
+gt      0.052
+ta      0.091
+tc      0.056
+tg      0.058
+tt      0.119
+
+You can create a background model file from any FASTA sequence file using the fasta-get-markov command: 
+
+Usage: fasta-get-markov <q> [options]
+
+Description:fasta-get-markov estimates a Markov model from a FASTA file of sequences. It Ignores (removes) ambiguous characters before computing the model. Both strands of DNA are combined unless -norc is set.
+
+Input:	Sequences in FASTA format from stdin (use < operator to indicate input file!)
+Output: Writes the Markov model in background model format to stdout.
+Options:
+    -m <n> - Order of Markov model to use. Default value is 0.
+    -norc - Do not combine forward and reverse complement frequencies.
+    -p - Use protein alphabet. Default is to use DNA alphabet.
+    
+
+

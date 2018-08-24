@@ -1,0 +1,4 @@
+random_color
+A1	"blue"
+A2	"yellow"
+A3	"red"

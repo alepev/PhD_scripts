@@ -1,0 +1,81 @@
+MEME Suite installation:
+http://meme.nbcr.net/meme/meme-download.html
+
+=================================================
+
+#CREATE CUSTOM BACKGROUND FILE for -bfile option
+(PROTEIN) 
+fasta-get-markov -p  -m X < input.fa   > output.bkg, where X = order of the background model 
+(DNA)
+fasta-get-markov -norc -m X < input.fa   > output.bkg, where X = order of the background model 
+(-norc prevents use of reverse strand with DNA)
+
+guidelines for the choice of background order:
+- X <= (minimum searched motif length - 4) 
+- to generate an order X background, N characters (nt) in provided fasta should be > 10 x 4^(X+1)
+- protein seqs usually require a lower X than DNA seqs (typically no more than 3 for DNA, 2 for proteins)
+
+=================================================
+
+#MEME
+
+#RUN IN PARALLEL (from version 4.9):
+mpirun -np X meme_p [meme options], where X== N of cores
+(meme_p is the parallel version for MPI, the normal meme command won't work)
+
+IMPORTANT: remove stars (*) and non-aminoacid characters from the sequences or MEME will complain!
+
+(PROTEIN): 
+mpirun -np X meme_p <sequences.fasta> -oc <output_directory> -protein -mod oops|zoops|anr -nmotifs X -evt 1 -minsites X -maxsites X -minw X -maxw X -bfile <background_file>
+(DNA) 
+mpirun -np X meme_p <sequences.fasta> -oc <output_directory> -dna -mod oops|zoops|anr -nmotifs X -evt 1 -minsites X -maxsites X -minw X -maxw X -bfile <background_file>
+
+..additonally:
+-maxsize X option to avoid memory problems (set high number, ex. 1000000000)
+
+extra options (DNA):
+-revcomp to search also on complementary strand
+-pal to look for palindromic motifs
+
+#options explanation:
+
+-oops = enforces 1 motif hit per sequence
+-zoops = zero or one motif hits per sequence
+-anr = any number of hits allowed per sequence (i.e. motif repeats)
+
+-nmotifs: max. number of motifs to find, even if more are significant (-evt sets the score threshold, motifs discarded when above it)
+
+-minsites/maxsites in case of oops/zoops correspond to min/max number of sequences with hits allowed,
+in case of anr to min/max number of hits (which can be higher than the number of sequences)
+(useful to enforce for instance 50% of the sequences to have the motif, by indicating -minsites = Nseqs/2)
+
+-minw/maxw = motif width constraints (previously tried 4-6 and 8-10 for DNA)
+
+-oc overwrites an existing directory with same name (in contrast to -o)
+
+=================================================
+
+#FIMO
+
+you need first to select the motifs to test from the MEME results;
+for the chosen ones extract the PSPM from the output and put it in a separate file (MOTIF_PSPM).
+sequences to test are typically the gene background of the experiment 
+(ex. finding all the occurences in the background for a motif discovered in a set of target genes)
+
+normally this is region-specific, i.e. if 5'UTR motif, test against 5'UTR background sequences using a 5'UTR background file;
+but possible to find hits over any kind of sequences of course, depending on the question)
+
+#SAMPLE USAGE:
+fimo --bgfile <background_file> --norc --thresh X --max-seq-length X --max-stored-scores X --oc <output_folder> <MOTIF_PSPM> <sequences.fasta>
+
+ex.
+fimo --bgfile Bing_5UTR_0order.bkg --norc --thresh 0.001 --max-seq-length 1000000000000 --max-stored-scores 1000000000000 --oc Bing_array_48DW_FC2_2a_5UTR  motif_48DW_FC2_2a_5UTR.txt  allgenesArray_Bing.TAIR10_5_utr_20101028.fa
+
+about --thresh:
+I've used 0.001 if motif length <= 6, 0.0001 otherwise; 
+if too many hits are found FIMO might complain, even when using the --max-seq-length and --max-stored-scores options
+
+..after this, possible processing:
+--> test for enrichment of the motif in the targets vs background (available custom script + Fisher's test subcall)
+--> extract position of the motifs and project them of specific transcripts (for target genes, already possible using MEME output directly)
+

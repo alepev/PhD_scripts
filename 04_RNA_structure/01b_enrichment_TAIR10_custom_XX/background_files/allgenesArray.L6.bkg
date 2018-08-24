@@ -1,0 +1,72 @@
+
+#PROGRESS REPORT
+
+#gene list (AGI loci) loaded
+#representative models loaded
+#RNA loaded
+#GFF3 loaded
+#OVERLAP done (general)
+#OVERLAP done (protein-coding genes)
+
+################################################
+
+#INPUT PARAMETERS and FILES
+
+#INPUT FILE:	allgenesArray.txt
+#BACKGROUND:	-
+
+#TAIR MODELS:	TAIR10_representative_gene_models.txt
+#GFF3 ANNOT.:	TAIR10_GFF3_genes.gff
+#RNA ANNOT.:	UCSC_RNAstr_annotation.txt
+
+#min SCORE:	0
+#MIN length:	6
+#MAX length:	1000
+
+################################################
+
+#OUTPUT STATISTICS
+
+#unique RNA coordinates passing filtering:	86258
+#(total allowing identical coordinates):	86535
+
+#N genes with mapped model:	30173
+#(original N genes from list):	30173
+
+#N genes
+all_protein-coding	26405
+all_5UTRgene	19250
+all_3UTRgene	20071
+all_pseudogene	760
+all_TrEl	2427
+all_miRNA	139
+all_snRNA	12
+all_snoRNA	41
+all_tRNA	16
+all_rRNA	3
+all_other_non-coding	370
+
+#N genes with RNA structure overlap (RNA partially/FULLY contained in gene limits)
+protein-coding	18020 	17996
+pseudogene	249 	243
+TrEl	73 	72
+miRNA	42 	35
+snRNA	12 	12
+snoRNA	8 	7
+tRNA	2 	1
+rRNA	0 	0
+other_non-coding	158 	156
+
+#N protein-coding genes with RNA structure overlapping exon feature (RNA partially/FULLY contained in gene limits)
+5UTR	100 	93
+3UTR	165 	153
+CDS	17727 	17695
+exon	17898 	17851
+
+#N protein-coding genes with RNA structure not overlapping exon feature (RNA partially/FULLY contained in gene limits)
+intron	122 	120
+
+#N protein-coding genes with RNA structure FULLY CONTAINED IN EXON FEATURE LIMITS
+CDS_FULL	15222
+exon_FULL	15458
+

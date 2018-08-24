@@ -1,0 +1,53 @@
+
+Exonerate output file:	FAKE_exonerate_wrapper.out
+reference genome file:	FAKE_genome.fa
+
+****************************************************************
+
+###SUMMARY - HITS BY SCORE###
+#SCORE	QUERY	TARGET
+100 	Q3 		SEQ3
+100 	Q2 		SEQ2
+100 	Q1 		SEQ1
+
+###SUMMARY - HITS BY TARGET###
+#TARGET	START	STOP	STRAND	QUERY	SCORE
+SEQ1	6	12	+	Q1	100
+SEQ2	2	8	-	Q2	100
+SEQ3	3	9	+	Q3	100
+
+****************************************************************
+###RESULTS DETAIL (BY QUERY)###
+
+#QUERY:  Q1
+
+>SEQ1
+LV
+CCGGGG
+#SCORE:   100
+#LIMITS:  6-12 [+]
+#LENGTH:  AA 2  DNA 6
+*WARNING: missing Start codon!			(suggested flanking sequence extension)
+
+
+#QUERY:  Q2
+
+>SEQ2
+FI
+ACGTAC
+#SCORE:   100
+#LIMITS:  2-8 [-]
+#LENGTH:  AA 2  DNA 6
+*WARNING: missing Start codon!			(suggested flanking sequence extension)
+
+
+#QUERY:  Q3
+
+>SEQ3
+NL
+AGTTGA
+#SCORE:   100
+#LIMITS:  3-9 [+]
+#LENGTH:  AA 2  DNA 6
+*WARNING: missing Start codon!			(suggested flanking sequence extension)
+

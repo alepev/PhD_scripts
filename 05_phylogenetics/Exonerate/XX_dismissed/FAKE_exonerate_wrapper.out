@@ -1,0 +1,43 @@
+Command line: -t FAKE_genome.fa
+
+C4 Alignment:
+------------
+         Query: Q1
+        Target: SEQ1
+     Raw score: 100
+  Target range: 6 -> 12
+
+    1 : LeuAsn : 2
+        |||  !
+        LeuVal
+    6 : CCGGGG : 12
+
+vulgar: 
+
+C4 Alignment:
+------------
+         Query: Q2
+        Target: SEQ2:[revcomp]
+     Raw score: 100
+  Target range: 8 -> 2
+
+     1 : MetIle : 2
+         .!.|||
+         PheIle
+     8 : ACGTAC : 2
+
+vulgar: 
+
+C4 Alignment:
+------------
+         Query: Q3
+        Target: SEQ3
+     Raw score: 100
+  Target range: 3 -> 9
+
+   1 : AsnLeu :  2
+       ||||||
+       AsnLeu
+   3 : AGTTGA : 9
+
+vulgar: 

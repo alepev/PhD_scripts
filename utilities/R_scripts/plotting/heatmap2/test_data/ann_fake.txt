@@ -1,0 +1,11 @@
+ctrl	exp
+E1	1	A1
+E2	1	A1
+E3	0	A1
+E4	0	A1
+E5	1	A2
+E6	1	A2
+E7	0	A2
+E8	1	A3
+E9	0	A3
+E10	0	A3

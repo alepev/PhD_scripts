@@ -1,0 +1,6 @@
+#seq_ID	start	stop	(strand)
+seqA	18	23
+seqB	16	10
+seqB	12	14	-
+seqB	15	18	+
+seqZ	1	3	-	

@@ -1,0 +1,13 @@
+
+Exonerate output file:	FAKE_exonerate_wrapper.out
+reference genome file:	FAKE_genome.fa
+
+****************************************************************
+
+>SEQ1 | EX. vs Q1 S100 flank10- [+] 6:12 (WARNING: extracted 6 only)
+AAAACC
+>SEQ2 | EX. vs Q2 S100 flank10- [-] 2:8 (WARNING: extracted 8 only)
+ACGTACGT
+>SEQ3 | EX. vs Q3 S100 flank10- [+] 3:9 (WARNING: extracted 3 only)
+ACC
+

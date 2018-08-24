@@ -1,0 +1,13 @@
+#50/75 sequence consensus rule (DNA)
+
+reference:
+Cavener DR: Comparison of the consensus sequence flanking translational start site in Drosophila and vertebrates. 
+Nucl Acids Res 15, 1353–1361 (1987).
+
+how it works:
+- capital letter if the relative frequency of a single nucleotide is > 0.5 
+  and greater than twice the relative frequency of the second most frequent nucleotide. 
+- when no single base satisfies these criteria, 
+  a pair of bases are assigned co-consensus status if the sum of the relative frequencies of the two is > 0.75. 
+- if neither of these two criteria is fulfilled at a position, 
+- if two bases have the same higher frequency, they are reported as co-dominant.

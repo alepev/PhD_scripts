@@ -1,0 +1,339 @@
+
+	##########################################################
+	#SEQUENCE SEARCH					 #
+	##########################################################
+
+	- build an appropriate database
+	- worth including KNOWN true homologs in database to have a reference for hits score cutoff
+	- if in doubt, keep first selection large and refine using other sources of evidence (i.e. alignments)
+
+	BLAST+				 
+	##########################################################
+	
+	#PROTEIN BLAST
+
+	blastp -subject subject.fa -query query.fa -evalue 1 -out out.out
+		#gives list of subject IDs for each query, if you want query ID to appear on each row add "qseqid"
+
+		-> then extract hits with custom script (score/e-value cutoff)
+
+	..to skip the alignments, it's possible to use custom output format with only relevant information
+		-outfmt "6 qseqid sseqid score evalue sstart send sseq"
+	(however standard output might be useful to check how good is the alignment with the query, and scripts that work for it can work also with external blast results)
+
+	#TBLASTN WITH BIG SUBJECT SEQUENCES (ex. full genome)	
+	
+	#db formatting needed for multithreading! (works only with -db option, not with -subject)
+	makeblastdb -in genome.fa -dbtype nucl|prot
+
+	#then run command using -db option to specify subject (named as above, blast retrieves db files matching original file name + additional db suffixes)
+  	tblastn -query query.fa -db genome.fa -evalue 0.001 -out out.out -num_threads N
+
+	#alternatives: split genome into smaller chunks / sequences over more files
+	
+	#ADDITIONAL OPERATIONS (TBLASTN):
+	- if necessary, mask genomic regions corresponding to known genes 
+	  (i.e. when looking for new hits in species for which proteins from same family are already known)
+	
+	..for protein blast it's easier, sufficient to label in recognizable way the protein name - so that can be excluded from the hits later
+
+	==========================================
+
+	#old version: LEGACY BLAST (dismissed)
+
+	formatdb -i proteinDB.fa
+	blast -p blastp -d proteinDB.fa -i proteinX.fa > blast.out (-F F to turn off filtering of low complexity regions)
+	
+	HMMs (HMMER3)			 
+	##########################################################
+
+	#typical procedure:
+
+		- align sequences to obtain MSA profile (suggested linsi)
+
+		- convert alignment (aligned fasta) to stockholm format (.fa -> .sto)
+		  (script or online tool, ex. http://www.ibi.vu.nl/programs/convertalignwww/)
+
+		- generate profile hmm using hmmbuild:
+
+	      hmmbuild <outfile> <hmm alignment input> (stockholm format)
+
+		- then A: align other seqs against profile using hmmalign:
+
+			hmmalign --amino --informat fasta --outformat stockholm -o <outfile> --mapali <original hmm alignment (stockholm)> <hmm profile> <fasta file>
+
+			--mapali allows to include in the alignment the sequences originally used to build the hmm profile 
+			(otherwise only the new ones in fasta file will be used)
+
+		- or B: find hits against sequence database using hmmsearch:
+
+			hmmsearch --noali --cpu <N> -o <outfile> <hmm> <target seqfile>
+		
+			-> then extract hits with custom script (score cutoff, inspect output manually first) and check for duplicated models sequences
+			(achieved with script which checks sequence identity/indels, and preliminary alignments to exclude poor sequences)
+
+			trick: good strategy to select score cutoff is to include in the fasta file known true and false positives from annotated species;
+			then run the custom script providing another fasta file where known species are not present, so only new species seqs are extracted
+			(usually however cutoff is evident from sudden drop in scores at a precise point, at least for not too distant species)
+
+	##########################################################
+	#SEQUENCE ALIGNMENT					 #
+	##########################################################
+
+	WHAT TO ALIGN:
+	- alignment based on functional DOMAIN(S) ONLY (if any known)
+	- complete aminoacid/nucleotide alignment
+	- (upstream region alignment)
+
+	#ALIGNMENT PROGRAMS: (see below for details)
+	- MAFFT: linsi most accurate (slow) option, also available einsi, ginsi
+	- PRANK: less conservative, tends to introduce more gaps which can be useful for distant, unalignable sequences
+	others (not used)
+	- CLUSTAL Omega: similar results to linsi
+	- MUSCLE: apparently very bad!
+	- ProbCons?
+	- EXONERATE: protein vs genome/dna (or cDNA vs cDNA) accounting for splicing, reading frame, phase (ex. PROTEIN PREDICTION)
+
+	#preliminary alignment for inspection
+	- EBI webtools: ClustalOmega + ClustalW2 Phylogeny 
+		(http://www.ebi.ac.uk/Tools/msa/clustalo/)
+		(http://www.ebi.ac.uk/Tools/phylogeny/clustalw2_phylogeny/)
+    	- clustalx hits.fa #simple alignment
+    	- njplot hits.ph #simple visualization, to individuate problematic sequences etc.
+
+	alignments - MAFFT (non-conservative)			 
+	##########################################################
+
+	#MAFFT (accurate) alignment options:
+
+		#linsi= local, 1 alignable domain/region (MOST ACCURATE)
+		#einsi= local, more than 1 alignable domain/region with same order across entries
+		#ginsi= global, most of the sequence alignable across entries  
+
+	#typical usage:
+
+		linsi --thread <Ncores-1> input > output
+
+	#EXTRAS :
+
+		--nuc/amino (assume the sequences are nucleotide/aminoacid - default: auto)
+		--bl 45 (default BLOSUM62, 45 or lower useful for distantly related sequences)
+
+		align (aligned/unaligned) sequences to existing aligment:
+		(see http://mafft.cbrc.jp/alignment/software/addsequences.html)
+
+		--add new_unaligned_sequences --reorder existing_alignment > output
+		OR
+		--addprofile new_aligned_sequences --reorder  existing_alignment > output
+	
+		(omit --reorder to preserve the original sequence order)
+
+		--preservecase (if need be)
+	
+	#NOTE ABOUT REPRODUCIBILITY OF ALIGNMENTS:
+	In multi-threading mode, iterative refinement calculation does not always give the same result.  
+	A solution is to use "--thread n --threadit 0", which disables multithread in the iterative refinement stage, but enables it in the other stages.  
+	By this, the result should be reproducible.
+
+	
+	alignments - PRANK (conservative)			
+	##########################################################
+
+	prank -DNA/protein/codon (latter for coding DNA) -d=infile.fa -o=outfile (need to provide name only, extension is written automatically - output in fasta format)
+	
+	#alignment merge parameters:
+  		-d1=infile1.fa
+		-d2=infile2.fa
+
+	-dna=dna_sequence_file [DNA sequence file for backtranslation of protein alignment]
+
+	##########################################################
+	#SEQUENCE ALIGNMENT - EXONERATE	(SPLICED ALIGNMENTS)	 #
+	##########################################################
+
+	(IMPORTANT: launch as 'Exonerate', with capital letter! this starts a build version that doesn't have problem with libraries..)
+
+	exonerate [ options ] <query path> <target path>
+	(inputs can contain single or multiple sequences, the program will compare all queries with all targets)
+
+		exonerate -q <query> -t <target> -Q <dna|protein> -T <dna|protein> -m <alignment model>
+
+	#ALIGNMENT MODELS:
+	(short names u, u:t, a:g, a:b, a:l, a:o, e2g, ner, p2d, p2d:b p2g, p2g:b, c2c, c2g cd2g and g2g can be used) 
+	- ungapped (default) 
+	- ungapped:trans (translation of all frames of both query and target - similar to an ungapped tblastx)
+	- affine:global (global alignment with affine gaps)
+	- affine:bestfit (best location alignment of the query onto the target sequence)
+	- affine:local (local alignment with affine gaps - any subsequence of the query and target sequence may appear in the alignment)
+	- affine:overlap (best overlap between query and target - frequently used in assembly algorithms)
+	- est2genome (similar to affine:local model, but includes intron modelling - similar to EST_GENOME and sim4) 
+	- ner (non-equivalenced regions = large unaligned regions in both query and target; 
+		ex. protein where strongly conserved helix regions will be aligned, but weakly conserved loop regions are not) 
+	- protein2dna (PROTEIN vs DNA, with appropriate gaps and frameshifts)
+	- protein2dna:bestfit (protein2dna model which includes the entire protein in the alignment - only available when using exhaustive alignment option -E)
+	- protein2genome (PROTEIN vs genomic DNA, as protein2dna with additional modelling of introns and intron phases - simliar to Genewise) 
+	- protein2genome:bestfit (protein2genome model which includes the entire protein in the alignment - only available when using exhaustive alignment option -E)
+	- coding2coding (ungapped:trans model allowing gaps and frameshifts - similar to a gapped tblastx) 
+	- coding2genome (est2genome model with translation of query sequence to allow a more sensitive comparison)
+	- cdna2genome (est2genome/coding2genome, allowing modeling of cDNA where a central coding region can be flanked by non-coding UTRs)
+	- genome2genome (coding2coding with modeling of introns on both sequences - not working well yet) 
+	
+	#APPLICATION:
+ 	-> protein vs genome:
+		exonerate --model protein2genome query.fasta target.fasta
+	
+	-> DNAvsDNA with translation (ex. useful for 5'-uORFs)
+		exonerate --model coding2coding query.fasta target.fasta
+
+	#ADDITIONAL OPTIONS:
+	-E <boolean> (deafult: FALSE)
+		if set to TRUE, an exhaustive alignment will be calculated (much slower, but will provide the optimal result for the given model)
+	
+	--refine <strategy> (default none)
+    		force exonerate to refine alignments generated by heuristics using dynamic programming over larger regions (slower, but improves alignments quality)
+	 	- full (pair of sequences in their entirety)
+    		- region (region of the sequences covered by the heuristic alignment) 
+	--refineboundary <size> (extra boundary to be included in the region subject to alignment during refinement by region)
+
+
+	--score <threshold>
+	--percent <%>
+	--bestn <N>
+    	(percent keeps results above % of max score for each query, generating different query-specific score thresholds (unlike --score ) - useful for queries of differing length)
+	
+	--showalignment <boolean> (shows alignments in an human readable form)
+
+	-> print various fields using a printf-like syntax:
+		--ryo (...)
+
+	##########################################################
+	#alignments visualization/manual editing		 #
+	##########################################################
+	
+	jalview -> to modify alignment and generate preliminary tree 
+	(neighbour joining with BLOSUM62, NO bootstrap), then SORT BY tree order
+	
+	(note: launch as command 'Jalview')
+
+	##########################################################
+	#TREE BUILDING					 #
+	##########################################################
+
+	software: 
+	- maximum likelihood: RAXML, PhyML
+	- bayesian: MrBayes
+	- parsimony: PAUP*
+	- others: MEGA (NJ with bootstrap)
+	
+	related software: (NOT for tree making!)
+	- PAML: Maximum-Likelihood based tests of trees reconstructed using other programs
+	- NOTUNG: tree reconciliation
+
+	model selection:
+	- nucleotide: 	jModelTest
+	- aminoacid:	ProtTest
+
+	partitions: 
+	- PartitionFinder
+	
+	phylo trees - RAxML					 
+	##########################################################	
+
+	#first convert alignment to .phy format!
+		myscript.py hits.linsi > hits.phy
+
+	***************************************************************************************************************************
+	*															  *
+     	* #COMMAND (MULTI-THREAD): raxmlHPC-PTHREADS -m [DNA/PROTEIN MODEL] -T 12 -f a -x 12345 -N 100 -s input.phy -n output.out *
+	*															  *
+	***************************************************************************************************************************
+	ex. -m GTRGAMMA for DNA, PROTGAMMAWAG for protein.. see below for MODEL CHOICE
+	
+	#m= substitution model (PROTEIN or DNA)
+	#f= algorithm, usually for fast bootstrap -f a (slow thorough bootstrap: -f d -b 12345 -p 12345, DON'T USE -x !!!)
+	#T= N threads (use MAX allowed!)
+	#x= seed for randomization
+	#N= N bootstraps
+
+	#results ---> Bipartitions file (without BranchLabels!)
+
+	#for multiple partitions:
+	#need partition file: ex. (subst. matrix, part name, sequence) 
+		JTT, gene1 = 1-500
+		WAGF, gene2 = 501-800
+		WAG, gene3 = 801-1000
+
+	raxmlHPC-PTHREADS -m PROTGAMMAWAG -T 12 -q partitionFile -f a -x 12345 -N 100 -s input.phy -n output.out
+
+	phylo trees - PhyML					 
+	##########################################################
+
+	(problem: NOT working! - only normal version available, however not feasible for bootstrap analyses)
+		
+	mpirun -np 12 phymlMPI -i input.phy -b 100
+
+	-d aa/nt 
+	-m WAG/JTT/other.. 	
+	-s SPR/NNI/BEST (SPR slower but more precise, NNI faster, BEST gives a combination of the two)
+	--rand_start (only if SPR: can be used to set initial tree to random)
+	--n_rand_starts <N> (only if previous: number of initial random trees to be used - default 5)
+	-r_seed <N> (seed to start random number generator)
+	-f e/m (frequencies from sequences/model - RAxML uses those from model) 
+	-c <N> (number of substitution rate categories in the gamma distribution - default 4)
+	-v e (proportion of invariant sites estimated by ML - default 0.0)
+	-a e (gamma distribution shape parameter estimated by ML - deafutl estimated by ML)
+	--use_median (as the middle of each substitution rate category in place of mean, that is the instead standard in other programs such as RAxML)
+	--run_id outputName (appends string to output, that by default is based on input name - this way can distinguish those from same alignment)
+	
+	ex. for protein seq:
+	
+	mpirun -np 10 phymlMPI -i input.phy -b 100 -d aa -m WAG -f m -s SPR --rand_start --n_rand_starts 10 --r_seed 12345
+
+		#number of bootstrap replicates (b) has to be a multiple of cores used (np), otherwise program will increase b to the first available multiple of np
+		NO -v (set to 0.0 by default as in RAxML)
+		NO -a (estimated by default as in RAxML)
+
+	
+	MODEL SELECTION			 
+	##########################################################
+
+	(both programs rely on PhyML)
+
+	graphical version, use on multicore machine to obtain maximum speed (automatic) - for highest reliability use slow version, i.e. NJ tree NOT fixed.
+
+	- nucleotide (JmodelTest with graphical interface)
+		cd $JMODELTEST_HOME
+		java -jar jModelTest.jar
+
+	- protein (ProtTest with graphical interface)
+		cd $PROTTEST_HOME/
+		./runXProtTestHPC.sh 
+
+	best model(s) are those with LOWER SCORE for the information criterion (suggested consensus approach between different ones, ex. AIC, BIC..).
+	if +I is not indicated, the proportion of invariable sites should be set at 0 
+		-> RAxML: just skip I option in the model
+	if +G is not indicated, the number of substitution rate categories should be set at 1 
+		-> RAxML: only possible for GTRCAT/MIX (-c option, default 25), 
+		   however these shouldn't be used for bootstrap analysis; 
+		   the indicated model for bootstrapping (GAMMA) doesn't allow to modify the number of categories
+
+	RAxML model setting in detail:
+	
+	-m GTR|PROT(dna/protein)GAMMA(avoid CAT for bootstrapping)I(for +I)MATRIXNAME(see below)F(+F = empirical frequencies, PROT only)
+
+	supported subs. matrices: DAYHOFF, DCMUT, JTT, MTREV, WAG, RTREV, CPREV, VT, BLOSUM62, MTMAM, LG, MTART, MTZOA, PMB, HIVB, HIVW, JTTDCMUT, FLU, GTR
+
+	
+	##########################################################
+	#TREE VISUALIZATION					 #
+	##########################################################
+	
+	iTOL webtool, nice graphics + visualization of sequence annotation (ex. motifs from MEME + known domains position)
+
+	import: upload bipartitions files (without "branchlabels"!) from RAxML output
+	export: typical graphics settings = PNG, 300ppi (200 for preliminary work), font size 20, tree scaling 0.5
+	
+	features annotation:
+	- protein domains/motifs (ex. from MEME output, made custom script to convert directly into iTOL-readable format)
+	- heatmaps
+	

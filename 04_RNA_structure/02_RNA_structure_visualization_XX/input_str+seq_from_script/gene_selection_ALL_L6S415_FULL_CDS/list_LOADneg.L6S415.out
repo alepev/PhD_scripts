@@ -1,0 +1,6 @@
+#gene_list: list_LOADneg.txt#RNAstr.filter: S|minL|maxL : 415|6|1000
+#OVERLAPfilter: gene|feat|cover. : 1|2|1
+#Noverlap_genes/Nmapped_genes/Nlist_genes: 0/10/10
+#NoverlapRNAcoords/RNAunique_coords/TOT_RNAs: 0/4335/4364
+#
+#LOCUS	type	chr	start	stop	strand/S	L	TOT_RNAcoords

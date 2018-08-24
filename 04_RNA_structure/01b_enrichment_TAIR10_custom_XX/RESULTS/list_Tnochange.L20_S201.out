@@ -1,0 +1,102 @@
+
+#PROGRESS REPORT
+
+#gene list (AGI loci) loaded
+#background loaded
+#representative models loaded
+#RNA loaded
+#GFF3 loaded
+#OVERLAP done (general)
+#OVERLAP done (protein-coding genes)
+#FOLD-ENRICHMENT + FISHER TEST for p-value done
+
+################################################
+
+#INPUT FILES
+
+#INPUT LIST:	list_Tnochange.txt
+#BACKGROUND:	allgenesArray.L20_S201.bkg
+
+#TAIR MODELS:	TAIR10_representative_gene_models.txt
+#GFF3 ANNOT.:	TAIR10_GFF3_genes.gff
+#RNA ANNOT.:	UCSC_RNAstr_annotation.txt
+
+################################################
+
+#FILTERING OPTIONS (RNA structure)
+
+#min SCORE:	201
+#MIN length:	20
+#MAX length:	1000
+
+################################################
+
+#OUTPUT STATISTICS
+
+#unique RNA coordinates passing filtering:	22354
+#(total allowing identical coordinates):	22455
+
+#N genes with mapped model:	150
+#(original N genes from list):	150
+
+#N genes (list vs background)
+all_protein-coding	150 	26405
+all_5UTRgene	149 	19250
+all_3UTRgene	149 	20071
+all_pseudogene	0 	760
+all_TrEl	0 	2427
+all_miRNA	0 	139
+all_snRNA	0 	12
+all_snoRNA	0 	41
+all_tRNA	0 	16
+all_rRNA	0 	3
+all_other_non-coding	0 	370
+
+#OVERLAP STATISTICS, LIST vs BACKGROUND + FOLD ENRICHMENT + FISHER P-VALUE (HYPERGEOMETRIC TEST)
+
+#N genes with RNA structure overlap (RNA partially contained in gene limits)
+protein-coding	66 	4058 	2.86 	5.319427e-17
+pseudogene	0 	45 	- 	1
+TrEl	0 	5 	- 	1
+miRNA	0 	4 	- 	1
+snRNA	0 	1 	- 	1
+snoRNA	0 	0 	- 	1
+tRNA	0 	1 	- 	1
+rRNA	0 	0 	- 	1
+other_non-coding	0 	39 	- 	1
+
+#N genes with RNA structure overlap (RNA FULLY contained in gene limits)
+protein-coding	66 	4051 	2.87 	4.86596e-17
+pseudogene	0 	43 	- 	1
+TrEl	0 	5 	- 	1
+miRNA	0 	1 	- 	1
+snRNA	0 	1 	- 	1
+snoRNA	0 	0 	- 	1
+tRNA	0 	0 	- 	1
+rRNA	0 	0 	- 	1
+other_non-coding	0 	38 	- 	1
+
+#N protein-coding genes with RNA structure overlapping exon feature (RNA partially contained in gene limits)
+5UTR	1 	17 	7.60 	0.1237917
+3UTR	1 	32 	4.21 	0.212292
+CDS	65 	4004 	2.86 	1.179548e-16
+exon	65 	4031 	2.84 	1.657177e-16
+
+#N protein-coding genes with RNA structure overlapping exon feature (RNA FULLY contained in gene limits)
+5UTR	1 	17 	7.60 	0.1237917
+3UTR	1 	29 	4.64 	0.1944583
+CDS	65 	3999 	2.86 	1.107196e-16
+exon	65 	4024 	2.84 	1.51781e-16
+
+#N protein-coding genes with RNA structure not overlapping exon feature (RNA partially contained in gene limits)
+intron	1 	27 	6.52 	0.1426365
+
+#N protein-coding genes with RNA structure not overlapping exon feature (RNA FULLY contained in gene limits)
+intron	1 	25 	7.04 	0.1328024
+
+#N protein-coding genes with RNA structure FULLY CONTAINED IN EXON FEATURE LIMITS
+CDS_FULL	45 	3196 	2.48 	3.975978e-09
+exon_FULL	46 	3238 	2.50 	1.863192e-09
+
+***WARNING: YOU CANNOT USE THIS AS BACKGROUND FILE!***
+

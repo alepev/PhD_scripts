@@ -1,0 +1,8 @@
+>araTha9_evofold_vf_1_16548 range=chr1:12451826-12451841 5'pad=0 3'pad=0 strand=+ repeatMasking=none
+ATTTGAAGAGGAAGAT
+>araTha9_evofold_vf_1_49268 range=chr1:19660798-19660813 5'pad=0 3'pad=0 strand=+ repeatMasking=none
+GTATCTTGTTGGATGC
+>araTha9_evofold_vf_1_131750 range=chr1:29491193-29491202 5'pad=0 3'pad=0 strand=+ repeatMasking=none
+GGCCACGGTT
+>araTha9_evofold_vf_1_21575 range=chr1:7219-7228 5'pad=0 3'pad=0 strand=+ repeatMasking=none
+GGGAATTCCC

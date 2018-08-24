@@ -1,0 +1,85 @@
+
+#PROGRESS REPORT
+
+#gene list (AGI loci + TE IDs) loaded
+#representative models loaded
+#cold/hotspots loaded
+#GFF3 loaded
+#OVERLAP done (general)
+#OVERLAP done (protein-coding genes)
+
+################################################
+
+#INPUT FILES
+
+#INPUT LIST:	allgenesArray.txt
+#BACKGROUND:	-
+
+#TAIR MODELS:	TAIR10_representative_gene_models.txt
+#GFF3 ANNOT.:	TAIR10_GFF3_genes.gff
+#RNA ANNOT.:	Li_coldspots.txt
+
+################################################
+
+#FILTERING OPTIONS (cold/hotspots)
+
+#min SCORE:	-100000.0
+#max SCORE:	100000.0
+#MIN length:	0
+#MAX length:	100000000
+
+################################################
+
+#GENERAL STATISTICS
+
+#N cold/hotspots passing filtering:	33187
+#(N unique coordinates passing filtering):	33187
+
+#N genes with mapped model:	30173
+#(TOTAL genes from list):	30173
+#N mapped Transposable Elements:	0
+#(TOTAL TrEl from list):	0
+
+#N genes
+ALL_GENES	30173 	(excluded TrEl)
+all_protein-coding	26405
+all_5UTRgene	19250
+all_3UTRgene	20071
+all_pseudogene	760
+all_TrElgene	2427
+all_miRNA	139
+all_snRNA	12
+all_snoRNA	41
+all_tRNA	16
+all_rRNA	3
+all_other_non-coding	370
+all_TrEl	0
+
+#OVERLAP STATISTICS (strand-specific)
+
+#N genes with cold/hotspot overlap (spot partially/FULLY contained in gene limits)
+GENES	14496 	14294 	(excluded TrEl)
+protein-coding	14174 	13983
+pseudogene	70 	69
+TrElgene	94 	91
+miRNA	7 	6
+snRNA	1 	1
+snoRNA	0 	0
+tRNA	2 	2
+rRNA	2 	1
+other_non-coding	146 	141
+TrEl	0 	0
+
+#N protein-coding genes with cold/hotspot overlapping exon feature (spot partially/FULLY contained in gene limits)
+5UTR	1100 	988
+3UTR	1989 	1852
+CDS	11241 	11040
+exon	13147 	12747
+
+#N protein-coding genes with cold/hotspot not overlapping exon feature (spot partially/FULLY contained in gene limits)
+intron	1027 	1023
+
+#N protein-coding genes with cold/hotspot FULLY CONTAINED IN EXON FEATURE LIMITS
+CDS_FULL	8451
+exon_FULL	11146
+

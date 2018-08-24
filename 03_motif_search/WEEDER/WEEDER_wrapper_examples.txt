@@ -1,0 +1,8 @@
+WEEDER_wrapper.py /home/alessia/MOTIF_ANALYSIS_IO/DW_only/2x_DW_500up/
+WEEDER_wrapper.py /home/alessia/MOTIF_ANALYSIS_IO/DW_only/2x_DW_1000up/
+
+WEEDER_wrapper.py /home/alessia/MOTIF_ANALYSIS_IO/DW_only/1.8x_DW_500up/
+WEEDER_wrapper.py /home/alessia/MOTIF_ANALYSIS_IO/DW_only/1.8x_DW_1000up/
+
+WEEDER_wrapper.py /home/alessia/MOTIF_ANALYSIS_IO/DW_only/1.5x_DW_500up/
+WEEDER_wrapper.py /home/alessia/MOTIF_ANALYSIS_IO/DW_only/1.5x_DW_1000up/

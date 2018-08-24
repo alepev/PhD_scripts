@@ -1,0 +1,16 @@
+#gene_list: list_Tpos.txt#RNAstr.filter: S|minL|maxL : 0|20|1000
+#OVERLAPfilter: gene|feat|cover. : 1|2|1
+#Noverlap_genes/Nmapped_genes/Nlist_genes: 3/7/7
+#NoverlapRNAcoords/RNAunique_coords/TOT_RNAs: 7/51118/51366
+#
+#LOCUS	type	chr	start	stop	strand/S	L	TOT_RNAcoords
+AT3G14600.1	protein_coding_gene	3	4910697	4912173	+	1477	4
+vf_3_106790	RNA	3	4911443	4911480	188	37	-
+vf_3_106793	RNA	3	4911650	4911763	237	113	-
+ef_3_106793	RNA	3	4911656	4911782	227	126	-
+vf_3_106795	RNA	3	4911868	4911897	304	29	-
+AT3G54920.1	protein_coding_gene	3	20345082	20348582	+	3501	1
+vf_3_56558	RNA	3	20346108	20346130	219	22	-
+AT5G23900.1	protein_coding_gene	5	8063985	8065523	-	1539	2
+ef_5_161405	RNA	5	8064992	8065050	153	58	-
+vf_5_161405	RNA	5	8065002	8065051	219	49	-

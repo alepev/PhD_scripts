@@ -1,0 +1,89 @@
+EvoFold Summary Statistics (whole genome)
+item count	86,672
+item bases	3,063,682 (2.56%)
+item total	3,294,756 (2.75%)
+smallest item	3
+average item	38
+biggest item	730
+smallest score	100
+average score	227
+biggest score	1,217
+
+partial overlap with 3UTR
+item count	1,058
+item bases	38,868 (0.03%)
+item total	40,459 (0.03%)
+smallest item	5
+average item	38
+biggest item	246
+smallest score	100
+average score	221
+biggest score	759
+
+partial overlap with 5UTR
+item count	667
+item bases	26,109 (0.02%)
+item total	27,750 (0.02%)
+smallest item	6
+average item	42
+biggest item	284
+smallest score	100
+average score	230
+biggest score	961
+
+partial overlap with CDS
+item count	82,307
+item bases	2,902,610 (2.43%)
+item total	3,113,201 (2.60%)
+smallest item	3
+average item	38
+biggest item	730
+smallest score	100
+average score	223
+biggest score	1,028
+
+partial overlap with intron
+item count	11,280
+item bases	624,265 (0.52%)
+item total	629,997 (0.53%)
+smallest item	4
+average item	56
+biggest item	730
+smallest score	100
+average score	225
+biggest score	852
+
+partial overlap with gene model
+item count	83,003
+item bases	2,924,132 (2.44%)
+item total	3,136,551 (2.62%)
+smallest item	3
+average item	38
+biggest item	730
+smallest score	100
+average score	223
+biggest score	1,028
+
+partial overlap with cis-regulatory element
+item count	16,928
+item bases	1,001,893 (0.84%)
+item total	1,095,180 (0.92%)
+smallest item	4
+average item	65
+biggest item	730
+smallest score	100
+average score	216
+biggest score	946
+
+partial overlap with CNS
+item count	1,003
+item bases	49,859 (0.04%)
+item total	58,431 (0.05%)
+smallest item	5
+average item	58
+biggest item	262
+smallest score	100
+average score	351
+biggest score	1,028
+
+
